@@ -6,9 +6,13 @@ class DeviceOperator:
         self.value = value
         self.switcher = switcher
         self.sensor = sensor
+        # print(value, switcher, sensor)
     def set_expected_level(self, set_value):
         self.set_value = set_value
-    def check_and_control(self, check_value):
+
+    def check_and_control(self):
+        print(self.sensor.get_value())
+        print(self.get_expected_level())
         if self.sensor.get_value() < self.get_expected_level():
             self.switcher.turn_on()
         else:
@@ -17,19 +21,18 @@ class DeviceOperator:
     def get_expected_level(self):
         return self.value
 
-# value_moisture = DeviceOperator()
-# value_humidity = DeviceOperator()
-# high_value_moisture = value_moisture.get_expected_level(int(input('Введите максимальное значение влажности земли')))
-# high_value_humidity = value_humidity.get_expected_level(int(input('Введите максимальное значение влажности воздуха')))
-
 temperature_device_operator = DeviceOperator(23, switchers.temperature, sensors.temperature)
 moisture_device_operator = DeviceOperator(23, switchers.temperature, sensors.temperature)
 humidity_device_operator = DeviceOperator(23, switchers.temperature, sensors.temperature)
 
-while True:
-    sensors.temperature.check_and_control()
-    sensors.moisture.check_and_control()
-    sensors.humidity.check_and_control()
+n = 2
+while n:
+    temperature_device_operator.check_and_control()
+    moisture_device_operator.check_and_control()
+    humidity_device_operator.check_and_control()
+
+    n -= 1
+
 
     # if sensors.temperature.get_value() < 23:
     #     switchers.temperature.turn_on()
