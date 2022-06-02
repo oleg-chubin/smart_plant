@@ -7,10 +7,10 @@ class DeviceOperator:
         self.value = value
         self.switcher = switcher
         self.sensor = sensor
-        # print(value, switcher, sensor)
+
 
     def set_expected_level(self, set_value):
-        self.set_value = set_value
+        self.value = set_value
 
     def check_and_control(self):
         print('текущее значение - ', self.sensor.get_value())
