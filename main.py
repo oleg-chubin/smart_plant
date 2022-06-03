@@ -22,17 +22,14 @@ class DeviceOperator:
     def get_expected_level(self):
         return self.value
 
-# temperature_device_operator = DeviceOperator(23, switchers.temperature, sensors.temperature)
-# moisture_device_operator = DeviceOperator(80, switchers.moisture, sensors.moisture)
-# humidity_device_operator = DeviceOperator(34, switchers.humidity, sensors.humidity)
-
 BIO_CYCLE = [
     {'period': 36000, 'light': 1000, 'temperature': 23, 'moisture': 80, 'humidity': 34},
     {'period': 7200, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34},
     {'period': 36000, 'light': 0, 'temperature': 18, 'moisture': 70, 'humidity': 45},
     {'period': 7200, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34},
 ]
-time_period = [36000, 7200, 36000, 7200]
+
+time_period = [el['period'] for el in BIO_CYCLE]
 now_time = time.time()
 remains_time = now_time % sum(time_period)
 for i, t in enumerate(time_period):
@@ -46,27 +43,11 @@ humidity_device_operator = DeviceOperator(BIO_CYCLE[i]['humidity'], switchers.hu
 light_device_operator = DeviceOperator(BIO_CYCLE[i]['light'], switchers.light, sensors.light)
 
 n = 5
+properties_list = [temperature_device_operator, moisture_device_operator, humidity_device_operator, light_device_operator]
 while n:
-    temperature_device_operator.check_and_control()
-    moisture_device_operator.check_and_control()
-    humidity_device_operator.check_and_control()
-    light_device_operator.check_and_control()
-    time.sleep(10)
+    for el in properties_list:
+        el.check_and_control()
 
+    time.sleep(10)
     n -= 1
 
-    # if sensors.temperature.get_value() < 23:
-    #     switchers.temperature.turn_on()
-    # else:
-    #     switchers.temperature.turn_off()
-    # time.sleep(5)
-    # if sensors.moisture.get_value() < high_value_moisture:
-    #     switchers.moisture.turn_on()
-    # else:
-    #     switchers.moisture.turn_off()
-    # time.sleep(5)
-    # if sensors.humidity.get_value() < high_value_humidity:
-    #     switchers.humidity.turn_on()
-    # else:
-    #     switchers.humidity.turn_off()
-    # time.sleep(5)
