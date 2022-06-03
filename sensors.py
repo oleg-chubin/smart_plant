@@ -1,6 +1,3 @@
 class BaseSensor:
-    def turn_on(self):
-        raise NotImplementedError
-
-    def turn_off(self):
+    def get_value(self):
         raise NotImplementedError
