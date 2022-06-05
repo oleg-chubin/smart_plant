@@ -1,33 +1,62 @@
 import random
 import time
 
-class Parameter_control():
 
-    def __init__(self, TEMPERATURE):
-        self.TEMPERATURE = TEMPERATURE
-        # self.switch_status = switch_status
+class Switcher:
+
+    def turn_on(self, state):
+        self.state = state
+        return self.state
+
+    def turn_off(self, state):
+        self.state = state
+        return self.state
 
 
-    def temperature(self):
-        current_temperature = 0
+class Sensor:
+    def get_value(self):
+        return self.current_value()
+
+
+# -------------------------------
+
+class DeviceOperator(Sensor, Switcher):
+
+    """Получает значение для контроля параметра"""
+    def set_expected_level(self, value):
+        self.value = value
+        print(self.value)
+
+    """Имитирует отклонение от установленного заначения, возвращает текущее значение для вывода"""
+    def current_value(self):
+        self.current_val = random.randint(self.value - 2, self.value + 2)
+        return self.current_val
+
+    """Проверяет текущее значение на отклонение от заданного"""
+    def check_and_control(self):
+        if self.current_val != self.value:
+            return self.turn_on("on")
+        else:
+            return self.turn_off("off")
+
+
+class Check(DeviceOperator):
+    def __init__(self, value):
+        self.value = value
+
+    """Выводит данные"""
+    def check(self):
         while True:
-            while current_temperature != self.TEMPERATURE:
-                print(current_temperature)
-                if current_temperature < self.TEMPERATURE:
-                    current_temperature += 1
-                else:
-                    current_temperature -= 1
-                time.sleep(1)
-            print(current_temperature)
-
-            current_temperature = random.randint(2, 4)
-            time.sleep(5)
-
-test = Parameter_control(3)
-test.temperature()
+            self.set_expected_level(self.value)
+            print(self.current_value())
+            print(self.check_and_control())
+            time.sleep(3)
 
 
+temperature = Check(int(input("Введите значение температуры (°): ")))
+# soil_moisture = Check(int(input("Введите значение влажности почвы (%): ")))
+# air_humidity = Check(int(input("Введите значение влажности воздуха (%): ")))
 
-
-
-
+temperature.check()
+# soil_moisture.check()
+# air_humidity.check()
