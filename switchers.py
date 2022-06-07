@@ -1,6 +1,11 @@
-class BaseSwitcher:
-    def turn_on(self):
-        raise NotImplementedError
+# from switchers import BaseSwitcher
+class Switcher:
 
-    def turn_off(self):
-        raise NotImplementedError
+    def turn_on(self, state):
+        self.state = state
+        return self.state
+
+    def turn_off(self, state):
+        self.state = state
+        return self.state
+

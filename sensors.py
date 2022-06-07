@@ -1,3 +1,9 @@
-class BaseSensor:
+# from sensors import BaseSensor
+class Sensor:
     def get_value(self):
-        raise NotImplementedError
+        return self.current_value()
+
+
+            
+            
+
