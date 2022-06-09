@@ -1,10 +1,9 @@
-from sensors import BaseSensor
-
+from Sensors_1 import BaseSensor
 
 class FakeSensor(BaseSensor):
     name = None
-    initial_value = None
-    
+    initial_value = 13
+
     def __init__(self, storage):
         self.storage = storage
 
@@ -12,6 +11,4 @@ class FakeSensor(BaseSensor):
         return self.storage.get_current_value()
 
 
-            
-            
 
