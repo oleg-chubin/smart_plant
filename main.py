@@ -22,6 +22,17 @@ class DeviceOperator:
     def get_expected_level(self):
         return self.value
 
+def get_current_biocycle():
+    time_period = [el['period'] for el in BIO_CYCLE]
+    now_time = time.time()
+    remains_time = now_time % sum(time_period)
+    for i, t in enumerate(time_period):
+        if t > remains_time:
+            break
+        remains_time -= t
+    current_biocecle_dict = BIO_CYCLE[i]
+    return current_biocecle_dict
+
 BIO_CYCLE = [
     {'period': 36000, 'light': 1000, 'temperature': 23, 'moisture': 80, 'humidity': 34},
     {'period': 7200, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34},
@@ -29,22 +40,21 @@ BIO_CYCLE = [
     {'period': 7200, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34},
 ]
 
-time_period = [el['period'] for el in BIO_CYCLE]
-now_time = time.time()
-remains_time = now_time % sum(time_period)
-for i, t in enumerate(time_period):
-    if t > remains_time:
-        break
-    remains_time -= t
+# properties_list = []
+# properties_list.append(DeviceOperator(BIO_CYCLE[i]['temperature'], switchers.temperature, sensors.temperature))
+# properties_list.append(DeviceOperator(BIO_CYCLE[i]['moisture'], switchers.moisture, sensors.moisture))
+# properties_list.append(DeviceOperator(BIO_CYCLE[i]['humidity'], switchers.humidity, sensors.humidity))
+# properties_list.append(DeviceOperator(BIO_CYCLE[i]['light'], switchers.light, sensors.light))
 
-temperature_device_operator = DeviceOperator(BIO_CYCLE[i]['temperature'], switchers.temperature, sensors.temperature)
-moisture_device_operator = DeviceOperator(BIO_CYCLE[i]['moisture'], switchers.moisture, sensors.moisture)
-humidity_device_operator = DeviceOperator(BIO_CYCLE[i]['humidity'], switchers.humidity, sensors.humidity)
-light_device_operator = DeviceOperator(BIO_CYCLE[i]['light'], switchers.light, sensors.light)
+temperature_device_operator = DeviceOperator(get_current_biocycle()['temperature'], switchers.temperature, sensors.temperature)
+moisture_device_operator = DeviceOperator(get_current_biocycle()['moisture'], switchers.moisture, sensors.moisture)
+humidity_device_operator = DeviceOperator(get_current_biocycle()['humidity'], switchers.humidity, sensors.humidity)
+light_device_operator = DeviceOperator(get_current_biocycle()['light'], switchers.light, sensors.light)
 
 n = 5
 properties_list = [temperature_device_operator, moisture_device_operator, humidity_device_operator, light_device_operator]
 while n:
+
     for el in properties_list:
         el.check_and_control()
 
