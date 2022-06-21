@@ -27,9 +27,15 @@ class DeviceOperator():
                 self.switcher.turn_off()
                 print(self.parametr, parametr_now)
 
-
-
-
+def get_need_circle(data):
+    periods = [i['period'] for i in data]
+    all_time = time.time()
+    current_time = all_time % sum(periods)
+    for i, p in enumerate(periods):
+        if p > current_time:
+            break
+        current_time -= p
+    return data[i]
 
 temperature_d_o = DeviceOperator(sensors.temperature, switchers.temperature, "temperature")
 moisture_d_o = DeviceOperator(sensors.moisture, switchers.moisture, "moisture")
@@ -42,16 +48,6 @@ switchers.temperature.turn_on()
 switchers.temperature.turn_off()
 
 while True:
-    def get_need_circle(data):
-        periods = [i['period'] for i in data]
-        all_time = time.time()
-        current_time = all_time % sum(periods)
-        for i, p in enumerate(periods):
-            if p > current_time:
-                break
-            current_time -= p
-        return data[i]
-
     circle_from_period = get_need_circle(BIO_CYCLE)
     for d_o in device_operators:
         d_o.set_value(circle_from_period[d_o.parametr])
