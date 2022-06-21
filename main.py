@@ -10,4 +10,3 @@ while True:
     time.sleep(1)
 
     print(sensors.temperature.get_value())
-
