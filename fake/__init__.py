@@ -3,9 +3,14 @@ from functools import cached_property
 
 class Storages:
     @cached_property
-    def light(self):
+    def light1(self):
         from fake.storage import StepStorage
-        return StepStorage(1000, 0)
+        return StepStorage(500, 0)
+
+    @cached_property
+    def light2(self):
+        from fake.storage import StepStorage
+        return StepStorage(500, 0)
 
     @cached_property
     def humidity(self):
@@ -28,9 +33,14 @@ storages = Storages()
 
 class Sensors:
     @cached_property
-    def light(self):
+    def light1(self):
         from fake.sensors import FakeSensor
-        return FakeSensor(storages.light)
+        return FakeSensor(storages.light1)
+
+    @cached_property
+    def light2(self):
+        from fake.sensors import FakeSensor
+        return FakeSensor(storages.light2)
 
     @cached_property
     def humidity(self):
@@ -50,9 +60,14 @@ class Sensors:
 
 class Switchers:
     @cached_property
-    def light(self):
+    def light1(self):
         from fake.switchers import FakeSwitcher
-        return FakeSwitcher(storages.light)
+        return FakeSwitcher(storages.light1)
+
+    @cached_property
+    def light2(self):
+        from fake.switchers import FakeSwitcher
+        return FakeSwitcher(storages.light2)
 
     @cached_property
     def humidity(self):
