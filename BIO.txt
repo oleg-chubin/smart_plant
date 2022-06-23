@@ -1,0 +1,4 @@
+{'period': 12, 'light': 1000, 'temperature': 23, 'moisture': 80, 'humidity': 34}
+{'period': 10, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34}
+{'period': 12, 'light': 0, 'temperature': 18, 'moisture': 70, 'humidity': 45}
+{'period': 10, 'light': 500, 'temperature': 20, 'moisture': 85, 'humidity': 34}
